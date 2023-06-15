@@ -9,6 +9,8 @@ import warnings
 import re
 import pickle
 
+import nltk
+nltk.download('punkt')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer, WordNetLemmatizer
