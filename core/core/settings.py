@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 import dj_database_url
 import os
 import nltk
@@ -23,19 +24,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!^-1np4s)nm1ah)om$0#0a@xurvqbugqly(oymh6kw3qk3=&f9'
+# SECRET_KEY = 'django-insecure-!^-1np4s)nm1ah)om$0#0a@xurvqbugqly(oymh6kw3qk3=&f9'
+
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-!^-1np4s)nm1ah)om$0#0a@xurvqbugqly(oymh6kw3qk3=&f9')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 # ALLOWED_HOSTS = ["*"]
 # CORS_ORIGIN_ALLOW_ALL = True
 
-ALLOWED_HOSTS = ['.onrender.com', '.vercel.app']
+# ALLOWED_HOSTS = ['.onrender.com', '.vercel.app']
 
-CORS_ALLOWED_ORIGINS = [
-    'https://frontend-banking-questions-deployment.vercel.app',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'https://frontend-banking-questions-deployment.vercel.app',
+# ]
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [host.strip() for host in v.split(',')])
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', cast=lambda v: [origin.strip() for origin in v.split(',')])
 
 # Application definition
 
@@ -97,8 +105,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': dj_database_url.parse(os.environ.get("DATABASE_URL")),
+# }
+
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get("DATABASE_URL")),
+    'default': config('DATABASE_URL', cast=dj_database_url.parse),
 }
 
 # Password validation
@@ -125,7 +137,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = config('TIME_ZONE', default='UTC')
 
 USE_I18N = True
 
@@ -161,8 +174,8 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
+    'TITLE': 'Banking Questions API',
+    'DESCRIPTION': 'Enhance online customer service in the banking sector by automating the initial filtering process of customer queries.',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
