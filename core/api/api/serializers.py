@@ -5,5 +5,7 @@ class CategoriesSerializer(serializers.Serializer):
         ref_name = "CategoriesSerializer"
 
 class ModelPredictionSerializer(serializers.Serializer):
+    class Meta:
+        ref_name = "ModelPredictionSerializer"
     model_name = serializers.CharField()
     text = serializers.CharField()
