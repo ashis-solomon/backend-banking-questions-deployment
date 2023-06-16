@@ -33,6 +33,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['.onrender.com', '.vercel.app']
 
+CORS_ALLOWED_ORIGINS = [
+    'https://frontend-banking-questions-deployment.vercel.app',
+]
+
 # Application definition
 
 INSTALLED_APPS = [
