@@ -5,20 +5,17 @@ from django.conf import settings
 from django.http import JsonResponse
 
 import os
-import warnings
 import re
 import pickle
+import warnings
+warnings.filterwarnings(action='ignore')
+
 
 import nltk
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('wordnet')
-
+nltk.data.path.append(settings.NLTK_DATA)
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer, WordNetLemmatizer
-
-warnings.filterwarnings(action='ignore')
 
 
 

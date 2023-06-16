@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import os
 import dj_database_url
+import os
+import nltk
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,7 +44,8 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'rest_framework',
-    'drf_yasg',
+    'drf_spectacular',
+    # 'drf_yasg',
 
     'api.apps.ApiConfig',
 ]
@@ -136,6 +138,7 @@ MEDIA_URL = 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# User Defined
 
 MODELS = {
     'adaboost': 'api/models/oversampled_adaboost_classifier.pkl',
@@ -144,3 +147,35 @@ MODELS = {
     'random_forest': 'api/models/oversampled_random forest_classifier.pkl',
     'gradient_boosting': 'api/models/oversampled_gradient boosting_classifier.pkl'
 }
+
+
+REST_FRAMEWORK = {
+    # YOUR SETTINGS
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
+
+
+# Determine the path for the NLTK resources within the 'packages' folder
+nltk_data_path = os.path.join(BASE_DIR, 'api', 'packages', 'nltk_data')
+
+# Set the custom path for NLTK resources
+nltk.data.path.append(nltk_data_path)
+
+# Check if the 'nltk_data' directory exists, and create it if necessary
+if not os.path.isdir(nltk_data_path):
+    os.makedirs(nltk_data_path)
+
+# Download the required resources
+nltk.download('punkt', download_dir=nltk_data_path)
+nltk.download('stopwords', download_dir=nltk_data_path)
+nltk.download('wordnet', download_dir=nltk_data_path)
+
+NLTK_DATA = nltk_data_path
