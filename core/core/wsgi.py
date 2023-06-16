@@ -15,3 +15,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
 application = get_wsgi_application()
 application = WhiteNoise(application)
+
+from django.conf import settings
+STATIC_ROOT = getattr(settings, 'STATIC_ROOT', None)
+STATIC_URL = getattr(settings, 'STATIC_URL', None)
+if STATIC_ROOT and STATIC_URL:
+    application.add_files(STATIC_ROOT, prefix=STATIC_URL)
