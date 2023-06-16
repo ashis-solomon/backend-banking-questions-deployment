@@ -152,13 +152,10 @@ CSRF_COOKIE_SECURE = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-# Set the base URL for static files
 STATIC_URL = '/static/'
 
-# Define the directory where static files will be stored during development
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+# Define the directory where static files will be collected during deployment
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # URL prefix for media files
 MEDIA_URL = '/media/'
